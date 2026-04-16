@@ -2,7 +2,6 @@
 --[[
     @author depso (depthso)
     @description Ultra-fast string builder library similar to C#, faster than Luau's native string concat
-    https://www.roblox.com/games/126884695634066
 ]]
 
 local Module = {}
