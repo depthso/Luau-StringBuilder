@@ -11,18 +11,12 @@ Module.__index = Module
 type StringBuilder = {
 	Strings: {string}
 }
-export type Module = setmetatable<StringBuilder, typeof(Module)>
+export type Module = StringBuilder & typeof(Module)
 
 --// Functions
 local Insert = table.insert
 local Concat = table.concat
 local Clear = table.clear
-
-function Module.new(): Module
-	return setmetatable({ 
-		Strings = {} 
-	}, Module)
-end
 
 function Module.Append(self: Module, String: string)
 	Insert(self.Strings, String)
@@ -33,8 +27,17 @@ function Module.Tostring(self: Module): string
 end
 
 function Module.Destroy(self: Module)
-    Clear(self.Strings)
-    Clear(self)
+	Clear(self.Strings)
+	Clear(self)
 end 
+
+function Module.new(): Module
+	return { 
+		Strings = {},
+		Append = Module.Append,
+		Tostring = Module.Tostring,
+		Destroy = Module.Destroy
+	}
+end
 
 return Module
