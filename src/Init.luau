@@ -1,5 +1,4 @@
 --!native
---!optimize 2
 --[[
     @author depso (depthso)
     @description Ultra-fast string builder library similar to C#, faster than Luau's native string concat
