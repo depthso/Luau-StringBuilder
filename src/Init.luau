@@ -9,7 +9,8 @@ Module.__index = Module
 
 --// Types
 type StringBuilder = {
-	Strings: {string}
+	Strings: {string},
+	Ending: number
 }
 export type Module = StringBuilder & typeof(Module)
 
@@ -19,15 +20,15 @@ local Concat = table.concat
 local Clear = table.clear
 
 function Module.Append(self: Module, String: string)
+	self.Ending += 1
 	Insert(self.Strings, String)
 end
 
 function Module.Tostring(self: Module): string
-	return Concat(self.Strings)
+	return Concat(self.Strings, nil, self.Ending)
 end
 
 function Module.Destroy(self: Module)
-	Clear(self.Strings)
 	Clear(self)
 end 
 
@@ -36,8 +37,9 @@ function Module.new(): Module
 		Strings = {},
 		Append = Module.Append,
 		Tostring = Module.Tostring,
-		Destroy = Module.Destroy
-	}
+		Destroy = Module.Destroy,
+		Ending = 0,
+	} :: Module
 end
 
 return Module
