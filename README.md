@@ -11,8 +11,8 @@ While benchmarking string concatination methods I noticed table.concat outperfor
 Builds a "Hello world!" string and prints it
 ```lua
 local StringBuilder = require("self/StringBuilder")
-local Builder = StringBuilder.new()
 
+local Builder = StringBuilder.new()
 Builder:Append("Hello world!")
 
 local String = Builder:Tostring()
