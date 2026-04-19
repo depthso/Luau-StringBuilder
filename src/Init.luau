@@ -25,7 +25,7 @@ function Module.Append(self: Module, String: string)
 end
 
 function Module.Tostring(self: Module): string
-	return Concat(self.Strings, nil, self.Ending)
+	return Concat(self.Strings, nil, 1)
 end
 
 function Module.Destroy(self: Module)
