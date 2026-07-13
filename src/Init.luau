@@ -1,4 +1,5 @@
 --!native
+--!strict
 --[[
     @author depso (depthso)
     @description Ultra-fast string builder library similar to C#, faster than Luau's native string concat
@@ -12,7 +13,15 @@ type StringBuilder = {
 	Strings: {string},
 	Ending: number
 }
-export type Module = StringBuilder & typeof(Module)
+type Methods = {
+	Append: (self: Methods, String: string) -> (),
+	Tostring: (self: Methods) -> string,
+	Destroy: (self: Methods) -> (),
+}
+export type Module = StringBuilder & Methods
+export type ModuleExport = {
+	new: () -> Methods
+}
 
 --// Functions
 local Insert = table.insert
@@ -32,14 +41,14 @@ function Module.Destroy(self: Module)
 	Clear(self)
 end 
 
-function Module.new(): Module
+function Module.new(): Methods
 	return { 
 		Strings = {},
 		Append = Module.Append,
 		Tostring = Module.Tostring,
 		Destroy = Module.Destroy,
 		Ending = 0,
-	} :: Module
+	} :: Methods
 end
 
-return Module
+return Module :: ModuleExport
