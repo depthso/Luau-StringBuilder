@@ -1,18 +1,18 @@
 --!native
 --[[
     @author depso (depthso)
-    @description Ultra-fast string builder library similar to C#, faster than Luau's native string concat
+    @description Ultra-fast string builder library similar to C#, 
+    faster than Luau's native string concat
 ]]
 
 local Module = {}
 Module.__index = Module
 
 --// Types
-type StringBuilder = {
+export type Module = {
 	Strings: {string},
 	Ending: number
-}
-export type Module = StringBuilder & typeof(Module)
+} & typeof(Module)
 
 --// Functions
 local Insert = table.insert
@@ -24,8 +24,18 @@ function Module.Append(self: Module, String: string)
 	Insert(self.Strings, String)
 end
 
+function Module.MultiAppend(self: Module, ...)
+	local Args = {...}
+
+	local Length = #Args
+	if Length == 0 then return end
+
+	table.move(Args, 1, Length, self.Ending + 1, self.Strings)
+	self.Ending += Length
+end
+
 function Module.Tostring(self: Module): string
-	return Concat(self.Strings, nil, self.Ending)
+	return Concat(self.Strings, nil, 1, self.Ending)
 end
 
 function Module.Destroy(self: Module)
@@ -38,6 +48,7 @@ function Module.new(): Module
 		Append = Module.Append,
 		Tostring = Module.Tostring,
 		Destroy = Module.Destroy,
+		MultiAppend = Module.MultiAppend,
 		Ending = 0,
 	} :: Module
 end
